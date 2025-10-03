@@ -16,8 +16,8 @@
 </head>
 <body>
   <header class="site-header">
-    <h1>Snake <span class="badge">PWA</span></h1>
-    <p>Installable, offline-first, and seriously snacky.</p>
+    <h1>Snake <span class="badge">Game</span></h1>
+    <p>shhhhh 🐍</p>
   </header>
 
   <main>
@@ -56,8 +56,33 @@
   </main>
 
   <footer>
-    <small>Made with ❤️ by codyasbin</small>
+    <small id="loveBtn" style="cursor:pointer;">Made with ❤️ by codyasbin</small>
   </footer>
+  <script>
+    const loveBtn = document.getElementById('loveBtn');
+    loveBtn.addEventListener('click', function(e) {
+      const heart = document.createElement('span');
+      heart.textContent = '❤️';
+      heart.style.position = 'fixed';
+      heart.style.left = (e.clientX - 10) + 'px';
+      heart.style.top = (e.clientY - 10) + 'px';
+      heart.style.fontSize = '2rem';
+      heart.style.pointerEvents = 'none';
+      heart.style.transition = 'transform 0.8s cubic-bezier(.17,.67,.83,.67), opacity 0.8s';
+      heart.style.transform = 'translateY(0) scale(1)';
+      heart.style.opacity = '1';
+      document.body.appendChild(heart);
+
+      requestAnimationFrame(() => {
+        heart.style.transform = 'translateY(-60px) scale(1.5)';
+        heart.style.opacity = '0';
+      });
+
+      setTimeout(() => {
+        heart.remove();
+      }, 800);
+    });
+  </script>
 
   <script src="app.js"></script>
   <script src="game.js" type="module"></script>
