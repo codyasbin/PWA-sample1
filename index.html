@@ -13,6 +13,34 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <link rel="stylesheet" href="styles.css">
+  <style>
+    #musicBtn {
+      padding: 0.55rem 0.8rem;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      background: #16a34a;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    #musicBtn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
+    }
+    
+    #musicBtn:active {
+      transform: scale(0.95);
+    }
+    
+    #musicBtn.muted {
+      background: #64748b;
+      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.25);
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -25,6 +53,7 @@
       <div>Score: <span id="score">0</span></div>
       <div>Best: <span id="best">0</span></div>
       <div class="controls">
+        <button id="musicBtn" title="Toggle Music (M)">🎵</button>
         <button id="pauseBtn" title="Pause/Resume (Space)">⏯️</button>
         <button id="restartBtn" title="Restart (R)">🔄</button>
         <button id="installBtn" hidden>⬇️ Install</button>
@@ -50,7 +79,7 @@
       <ul>
         <li>Use arrow keys or on-screen buttons to move.</li>
         <li>Eat 🍎 to grow. Avoid walls and your own tail.</li>
-        <li>Press <kbd>Space</kbd> to pause, <kbd>R</kbd> to restart.</li>
+        <li>Press <kbd>Space</kbd> to pause, <kbd>R</kbd> to restart, <kbd>M</kbd> to toggle music.</li>
       </ul>
     </section>
   </main>
@@ -58,6 +87,13 @@
   <footer>
     <small id="loveBtn" style="cursor:pointer;">Made with ❤️ by codyasbin</small>
   </footer>
+  
+  <!-- Audio element -->
+  <audio id="bgMusic" loop preload="auto" autoplay>
+    <source src="./music.m4a" type="audio/mp4">
+    Your browser does not support the audio element.
+  </audio>
+
   <script>
     const loveBtn = document.getElementById('loveBtn');
     loveBtn.addEventListener('click', function(e) {
@@ -81,6 +117,35 @@
       setTimeout(() => {
         heart.remove();
       }, 800);
+    });
+
+    // Music toggle functionality
+    const musicBtn = document.getElementById('musicBtn');
+    const bgMusic = document.getElementById('bgMusic');
+    let isMusicPlaying = false;
+
+    // Set initial volume
+    bgMusic.volume = 0.3;
+
+    musicBtn.addEventListener('click', function() {
+      isMusicPlaying = !isMusicPlaying;
+      
+      if (isMusicPlaying) {
+        musicBtn.textContent = '🎵';
+        musicBtn.classList.remove('muted');
+        bgMusic.play().catch(err => console.log('Audio play failed:', err));
+      } else {
+        musicBtn.textContent = '🔇';
+        musicBtn.classList.add('muted');
+        bgMusic.pause();
+      }
+    });
+
+    // Keyboard shortcut for music toggle
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'm' || e.key === 'M') {
+        musicBtn.click();
+      }
     });
   </script>
 
