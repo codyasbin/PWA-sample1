@@ -2,7 +2,7 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/service-worker.js');
+      const reg = await navigator.serviceWorker.register('./service-worker.js', { scope: './' });
       console.log('[SW] registered', reg);
       let refreshing = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
